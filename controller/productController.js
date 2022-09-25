@@ -41,33 +41,57 @@ router.get('/filter/:brandId',(req,res) => {
     
     let query = {}
     let brandId = Number(req.params.brandId);
-    let sizeId = Number(req.query.sizeId);
+    let productTypeId = Number(req.params.productTypeId)
+    let colorId = Number(req.query.colorId);
     let genderId = Number(req.query.genderId);
+    let lcost = Number(req.query.lcost);
+    let hcost = Number(req.query.hcost);
+    let discountId = Number(req.query.discountId);
     let occasionId = Number(req.query.occasionId);
-    if(sizeId && genderId && occasionId){
+    if(productTypeId && colorId && genderId && lcost && hcost && discountId && occasionId){
         query = {
             "brands.brand_id":brandId,
-            size_id:sizeId,
-            occasion_Id:occasionId,
-            gender_id:genderId
+            productType_id:productTypeId,
+            "gender.gender_id":genderId,
+            occasion_id:occasionId,
+            "color.color_id":colorId,
+            "discount.discount_id":discountId,
+            $and:[{price:{$gt:lcost,$lt:hcost}}],
         }
     }
-    else if(sizeId){
+    else if(productTypeId){
         query = {
             "brands.brand_id":brandId,
-             size_id:sizeId
+            productType_id:productTypeId
         }
     }else if(genderId){
         query = {
             "brands.brand_id":brandId,
-            gender_id:genderId
+            "gender.gender_id":genderId
         }
     }else if(occasionId){
         query = {
             "brands.brand_id":brandId,
-            occasion_Id:occasionId
+            occasion_id:occasionId
         }
-    } else{
+    }else if(colorId){
+        query = {
+            "brands.brand_id":brandId,
+            "color.color_id":colorId
+        }
+    } else if(discountId){
+        query = {
+            "brands.brand_id":brandId,
+            "discount.discount_id":discountId
+        }
+    }else if(lcost && hcost){
+        query = {
+            "brands.brand_id":brandId,
+            $and:[{price:{$gt:lcost,$lt:hcost}}]
+           
+        }
+    
+    }else{
         query = {
             "brands.brand_id":brandId,
         }
