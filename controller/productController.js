@@ -41,7 +41,7 @@ router.get('/filter/:brandId',(req,res) => {
     
     let query = {}
     let brandId = Number(req.params.brandId);
-    let productTypeId = Number(req.params.productTypeId)
+    let productTypeId = Number(req.query.productTypeId)
     let colorId = Number(req.query.colorId);
     let genderId = Number(req.query.genderId);
     let lcost = Number(req.query.lcost);
