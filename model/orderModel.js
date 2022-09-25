@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
     status:String,
     bank_name:String,
     date:String,
-    productItem:Array,
+    productItem:String,
 })
 
 mongoose.model('orders',orderSchema, 'orders');
